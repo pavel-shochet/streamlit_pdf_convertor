@@ -32,10 +32,17 @@ if uploaded_file:
         cv.convert(word_path, start=0, end=None)  # Convert all pages
         cv.close()
 
-        # Provide download link with the custom file name
-        st.write("Conversion successful!")
+        # Read the converted file for download
         with open(word_path, "rb") as f:
-            st.download_button("Download Word File", f, file_name=word_file_name)
+            file_data = f.read()
+
+        # Display Streamlit's download button
+        st.download_button(
+            label="Download Converted Word File",
+            data=file_data,
+            file_name=word_file_name,
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        )
 
         # Clean up temporary files
         os.remove(pdf_path)
